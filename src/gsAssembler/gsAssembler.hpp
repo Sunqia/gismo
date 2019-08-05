@@ -153,9 +153,9 @@ void gsAssembler<T>::penalizeDirichletDofs(int unk)
         for (index_t k=0; k!= bnd.size(); ++k)
         {
             // free dof position
-            const index_t ii = mapper.index ( bnd(k) , it->patch() );
+            const index_t ii = mapper.index (static_cast<index_t>(bnd(k)) , it->patch() );
             // boundary dof position
-            const index_t bb = bmap  .bindex( bnd(k) , it->patch() );
+            const index_t bb = bmap  .bindex(static_cast<index_t>(bnd(k)) , it->patch() );
 
             m_system.matrix()(ii,ii) = PP;
             m_system.rhs().row(ii)   = PP * m_ddof[unk].row(bb);
@@ -168,14 +168,14 @@ void gsAssembler<T>::penalizeDirichletDofs(int unk)
           it != m_pde_ptr->bc().cornerEnd(); ++it )
     {
         const int i  = mbasis[it->patch].functionAtCorner(it->corner);
-        const int ii = mapper.bindex( i , it->patch );
+        const int ii = mapper.bindex( i , static_cast<index_t>(it->patch) );
         m_system.matrix()(ii,ii)       = PP;
         m_system.rhs().row(ii).setConstant(PP * it->value);
     }
 }
 
 template<class T>
-void gsAssembler<T>::setFixedDofs(const gsMatrix<T> & coefMatrix, int unk, int patch)
+void gsAssembler<T>::setFixedDofs(const gsMatrix<T> & coefMatrix, int unk, size_t patch)
 {
     GISMO_ASSERT( m_options.getInt("DirichletValues") == dirichlet::user, "Incorrect options");
 
@@ -196,7 +196,7 @@ void gsAssembler<T>::setFixedDofs(const gsMatrix<T> & coefMatrix, int unk, int p
           it =  m_pde_ptr->bc().dirichletBegin();
           it != m_pde_ptr->bc().dirichletEnd()  ; ++it )
     {
-        const int k = it->patch();
+        const size_t k = it->patch();
         if ( k == patch )
         {
             // Get indices in the patch on this boundary
