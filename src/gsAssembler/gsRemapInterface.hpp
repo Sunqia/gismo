@@ -413,7 +413,7 @@ void gsRemapInterface<T>::constructBreaks() {
                     parameterBreaks.push_sorted_unique(G2_parametric_LC(0, 0)); // sort w.r.t. u direction
                 else {
                     int j = 0;
-                    gsVector<bool> roundingError = gsVector<bool>::Constant(parameterBreaks.size(), true);
+                    gsVector<bool> roundingError = gsVector<bool>::Constant(static_cast<index_t>(parameterBreaks.size()), true);
 
                     for (typename gsSortedVector<T>::iterator it = parameterBreaks.begin();
                          it != parameterBreaks.end(); it++) {
@@ -433,7 +433,7 @@ void gsRemapInterface<T>::constructBreaks() {
                     parameterBreaks.push_sorted_unique(G2_parametric_LC(1, 0)); // sort w.r.t. v direction
                 else {
                     int j = 0;
-                    gsVector<bool> roundingError = gsVector<bool>::Constant(parameterBreaks.size(), true);
+                    gsVector<bool> roundingError = gsVector<bool>::Constant(static_cast<index_t>(parameterBreaks.size()), true);
 
                     for (typename gsSortedVector<T>::iterator it = parameterBreaks.begin();
                          it != parameterBreaks.end(); it++) {
@@ -449,12 +449,12 @@ void gsRemapInterface<T>::constructBreaks() {
 
         }
 
-        m_breakpoints = gsMatrix<T>(domainDim(), parameterBreaks.size()); // Assume m_g1.geoDim() == m_g2.geoDim()
+        m_breakpoints = gsMatrix<T>(domainDim(), static_cast<index_t>(parameterBreaks.size())); // Assume m_g1.geoDim() == m_g2.geoDim()
         for (size_t i = 0; i < parameterBreaks.size(); i++) {
             if (fixedDir)
-                m_breakpoints.col(i) << parameterBreaks[i], G2_parametric_LC(1, 0);
+                m_breakpoints.col(static_cast<index_t>(i)) << parameterBreaks[i], G2_parametric_LC(1, 0);
             else
-                m_breakpoints.col(i) << G2_parametric_LC(0, 0), parameterBreaks[i];
+                m_breakpoints.col(static_cast<index_t>(i)) << G2_parametric_LC(0, 0), parameterBreaks[i];
         }
 
         // only for tests
@@ -570,7 +570,7 @@ void gsRemapInterface<T>::constructReparam()
             // find a suitable start value for the Newton iteration
             find_start_value = (samples_right.colwise()) - samples_left.col(i);
 
-            size_t row, col;
+            index_t row, col;
 
             find_start_value.colwise().squaredNorm().minCoeff(&row, &col);
 

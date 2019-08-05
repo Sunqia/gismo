@@ -67,7 +67,7 @@ template<class T> void
 gsQuadRule<T>::computeTensorProductRule(const std::vector<gsVector<T> > & nodes,
                                         const std::vector<gsVector<T> > & weights)
 {
-    const int d  = nodes.size();
+    const int d  = static_cast<index_t>(nodes.size());
     GISMO_ASSERT( static_cast<size_t>(d) == weights.size(),
                   "Nodes and weights do not agree." );
 
