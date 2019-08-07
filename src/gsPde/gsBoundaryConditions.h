@@ -141,7 +141,7 @@ struct boundary_condition
     const std::string & ctype() const { return m_label; }
 
     /// Returns the patch to which this boundary condition refers to
-    size_t     patch()    const { return ps.patch; }
+    index_t     patch()    const { return ps.patch; }
 
     /// Returns the side to which this boundary condition refers to
     boxSide side()     const { return ps.side(); }
@@ -180,13 +180,13 @@ struct boundary_condition
 template<class T>
 struct corner_value
 {
-    corner_value(int p, boxCorner c, T v, int unk = 0)
+    corner_value(index_t p, boxCorner c, T v, index_t unk = 0)
         : patch(p), corner(c), value(v), unknown(unk) { }
 
-    size_t patch;     ///< The index of the patch.
+    index_t patch;     ///< The index of the patch.
     boxCorner corner; ///< The corner
     T value;          ///< The value
-    int   unknown;    ///< Unknown to which this boundary condition refers to
+    index_t   unknown;    ///< Unknown to which this boundary condition refers to
 };
 
 /** @brief

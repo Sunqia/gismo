@@ -226,15 +226,15 @@ inline std::ostream &operator<<(std::ostream &os, const boxSide& o)
 struct GISMO_EXPORT patchSide : public boxSide
 {
 public:
-    size_t patch;              ///< The index of the patch.
+    index_t patch;              ///< The index of the patch.
 public:
 
     patchSide() : boxSide(), patch(0) { }
 
-    patchSide(size_t p, boxSide s)
+    patchSide(index_t p, boxSide s)
         : boxSide(s), patch(p) { }
 
-    patchSide(size_t p, boundary::side s)
+    patchSide(index_t p, boundary::side s)
         : boxSide(s), patch(p) { }
 
     // Accessors
@@ -246,7 +246,7 @@ public:
      * @param dim is the ambient dimension
      * @param corners
      */
-    void getContainedCorners (int dim, std::vector<patchCorner> &corners) const;
+    void getContainedCorners (short_t dim, std::vector<patchCorner> &corners) const;
 
     using boxSide::getContainedCorners; // unhiding
 };

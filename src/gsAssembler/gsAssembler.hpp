@@ -149,13 +149,13 @@ void gsAssembler<T>::penalizeDirichletDofs(int unk)
     {
         const gsBasis<T> & basis = mbasis[it->patch()];
 
-        gsMatrix<unsigned> bnd = basis.boundary(it->side() );
+        gsMatrix<index_t> bnd = basis.boundary(it->side() );
         for (index_t k=0; k!= bnd.size(); ++k)
         {
             // free dof position
-            const index_t ii = mapper.index (static_cast<index_t>(bnd(k)) , it->patch() );
+            const index_t ii = mapper.index (bnd(k) , it->patch() );
             // boundary dof position
-            const index_t bb = bmap  .bindex(static_cast<index_t>(bnd(k)) , it->patch() );
+            const index_t bb = bmap  .bindex(bnd(k) , it->patch() );
 
             m_system.matrix()(ii,ii) = PP;
             m_system.rhs().row(ii)   = PP * m_ddof[unk].row(bb);
@@ -167,8 +167,8 @@ void gsAssembler<T>::penalizeDirichletDofs(int unk)
           it = m_pde_ptr->bc().cornerBegin();
           it != m_pde_ptr->bc().cornerEnd(); ++it )
     {
-        const int i  = mbasis[it->patch].functionAtCorner(it->corner);
-        const int ii = mapper.bindex( i , static_cast<index_t>(it->patch) );
+        const index_t i  = mbasis[it->patch].functionAtCorner(it->corner);
+        const index_t ii = mapper.bindex( i , it->patch );
         m_system.matrix()(ii,ii)       = PP;
         m_system.rhs().row(ii).setConstant(PP * it->value);
     }
