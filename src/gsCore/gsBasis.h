@@ -742,14 +742,14 @@ public:
     */
 
     /// @brief The number of elements.
-    virtual int numElements() const;
+    virtual index_t numElements() const;
 
     /// @brief The number of elements on side \a s.
     // fixme: default arg = none
-    virtual int numElements(boxSide const & s) const;
+    virtual index_t numElements(boxSide const & s) const;
 
     /// @brief Returns an index for the element which contains point \a u
-    virtual int elementIndex(const gsVector<T> & u ) const;
+    virtual index_t elementIndex(const gsVector<T> & u ) const;
 
     /// @brief For a tensor product basis, return the (const) 1-d
     /// basis for the \a i-th parameter component.

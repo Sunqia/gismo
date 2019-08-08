@@ -121,10 +121,10 @@ public:
     }
 
     // Look at gsBasis class for a description
-    int numElements(boxSide const & s) const
+    index_t numElements(boxSide const & s) const
     {
-        const index_t dir =  s.direction();
-        int nElem = 1;
+        const short_t dir =  s.direction();
+        index_t nElem = 1;
         for (short_t dim = 0; dim < d; ++dim)
         {
             if(dim == dir)
@@ -135,11 +135,11 @@ public:
     }
 
     // Look at gsBasis class for a description
-    int elementIndex(const gsVector<T> & u ) const
+    index_t elementIndex(const gsVector<T> & u ) const
     {
         GISMO_ASSERT( u.rows() == d, "Wrong vector dimension");
 
-        int ElIndex = m_bases[d-1]->elementIndex( u.col(d-1) );
+        index_t ElIndex = m_bases[d-1]->elementIndex( u.col(d-1) );
         for ( short_t i=d-2; i>=0; --i )
             ElIndex = ElIndex * m_bases[i]->numElements() 
                     + m_bases[i]->elementIndex( u.col(i) );
@@ -430,7 +430,7 @@ public:
     { return &m_bases[d]; }
 
     /// The number of basis functions in the direction of the k-th parameter component
-    int size(int k) const { return m_bases[k]->size(); }
+    index_t size(index_t k) const { return m_bases[k]->size(); }
 
     /// The number of basis functions in the direction of the k-th parameter component
     template<int s>
@@ -489,9 +489,9 @@ public:
         return td;
     }
 
-    gsVector<int> cwiseDegree() const
+    gsVector<index_t> cwiseDegree() const
     {
-        gsVector<int> deg(d);
+        gsVector<index_t> deg(d);
         for (short_t k=0; k!=d; ++k)
             deg[k] = m_bases[k]->degree(0);
         return deg;
@@ -499,7 +499,7 @@ public:
 
     /// Returns the global index of the basis function created by
     /// components of indices i,j,k (for 2d or 3d only)
-    inline unsigned index(unsigned i, unsigned j, unsigned k=0) const;
+    inline index_t index(index_t i, index_t j, index_t k=0) const;
 
     /// Returns the stride for dimension dir
     inline unsigned stride(short_t dir) const;
@@ -520,9 +520,9 @@ public:
 
     /// \brief Returns the tensor index of the basis function with
     /// global index \a m.
-    inline gsVector<unsigned, d> tensorIndex(const unsigned& m) const 
+    inline gsVector<index_t, d> tensorIndex(const index_t& m) const
     {
-        gsVector<unsigned, d> ind;
+        gsVector<index_t, d> ind;
         int mm = m;
         for (short_t i = 0; i<d; ++i )
         {
@@ -871,7 +871,7 @@ inline index_t gsTensorBasis<d,Basis_t>::index(gsVector<index_t,d> const & v) co
 }
 
 template<short_t d, class Basis_t >
-inline unsigned gsTensorBasis<d,Basis_t>::index(unsigned i, unsigned j, unsigned k ) const
+inline index_t gsTensorBasis<d,Basis_t>::index(index_t i, index_t j, index_t k ) const
 {
     return size(0) * (size(1) * k + j) + i;
 }

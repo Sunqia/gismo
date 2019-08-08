@@ -461,12 +461,12 @@ void gsHTensorBasis<d,T>::matchWith(const boundaryInterface & bi,
         gsVector<unsigned> N(d);
 
         // tens1 will store the tensor-index on side second(),...
-        gsVector<unsigned> tens0(d), tens1(d);
+        gsVector<index_t> tens0(d), tens1(d);
 
         // see if the orientation is preserved on side second()
         const gsVector<bool> dirOrient = bi.dirOrientation();
 
-        const gsVector<int> dirMap = bi.dirMap();
+        const gsVector<index_t> dirMap = bi.dirMap();
 
         // get the global indices of the basis functions which are
         // active on the interface
@@ -509,7 +509,7 @@ void gsHTensorBasis<d,T>::matchWith(const boundaryInterface & bi,
             {
                 // coordinate direction j on first() gets
                 // mapped to direction jj on second()
-                int jj = dirMap[j];
+                index_t jj = dirMap[j];
                 // store the respective component of the tensor-index
                 tens1[jj] = tens0[j];
 
