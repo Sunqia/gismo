@@ -502,7 +502,7 @@ public:  /* Dirichlet degrees of freedom computation */
     /// \param[in] coefMatrix the coefficients of the function
     /// \param[in] unk the consideren unknown
     /// \param[in] patch the patch index
-    void setFixedDofs(const gsMatrix<T> & coefMatrix, int unk = 0, int patch = 0);
+    void setFixedDofs(const gsMatrix<T> & coefMatrix, int unk = 0, size_t patch = 0);
 
     /// @brief the user can manually set the dirichlet Dofs for a given patch and
     /// unknown.
@@ -689,7 +689,7 @@ void gsAssembler<T>::apply(ElementVisitor & visitor,
 #endif
 
     // Initialize reference quadrature rule and visitor data
-    visitor_.initialize(bases, patchIndex, m_options, quRule);
+    visitor_.initialize(bases, static_cast<index_t>(patchIndex), m_options, quRule);
 
     const gsGeometry<T> & patch = m_pde_ptr->patches()[patchIndex];
 
@@ -714,7 +714,7 @@ void gsAssembler<T>::apply(ElementVisitor & visitor,
 
         // Push to global matrix and right-hand side vector
 #pragma omp critical(localToGlobal)
-        visitor_.localToGlobal(patchIndex, m_ddof, m_system); // omp_locks inside
+        visitor_.localToGlobal(static_cast<index_t>(patchIndex), m_ddof, m_system); // omp_locks inside
     }
 }//omp parallel
 
@@ -728,8 +728,8 @@ void gsAssembler<T>::apply(InterfaceVisitor & visitor,
 {
     gsRemapInterface<T> interfaceMap(m_pde_ptr->patches(), m_bases[0], bi);
 
-    const int patchIndex1      = bi.first().patch;
-    const int patchIndex2      = bi.second().patch;
+    const size_t patchIndex1      = bi.first().patch;
+    const size_t patchIndex2      = bi.second().patch;
     const gsBasis<T> & B1 = m_bases[0][patchIndex1];// (!) unknown 0
     const gsBasis<T> & B2 = m_bases[0][patchIndex2];
 
@@ -763,7 +763,7 @@ void gsAssembler<T>::apply(InterfaceVisitor & visitor,
         visitor.assemble(*domIt,*domIt, quWeights);
 
         // Push to global patch matrix (m_rhs is filled in place)
-        visitor.localToGlobal(patchIndex1, patchIndex2, m_ddof, m_system);
+        visitor.localToGlobal(static_cast<index_t>(patchIndex1), static_cast<index_t>(patchIndex2), m_ddof, m_system);
     }
 
 }

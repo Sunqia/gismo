@@ -42,13 +42,13 @@ gsQuadRule<T>::mapToAll( const std::vector<T> & breaks,
     GISMO_ASSERT( 1 == m_nodes.rows(), "Inconsistent quadrature mapping.");
     GISMO_ASSERT( breaks.size()>1, "At least 2 breaks are needed.");
 
-    const size_t nint    = breaks.size() - 1;
+    const index_t nint   = static_cast<index_t>(breaks.size() - 1);
     const index_t nnodes = numNodes();
 
     nodes  .resize(1, nint*nnodes);
     weights.resize( nint*nnodes );
 
-    for ( size_t i = 0; i!=nint; ++i)
+    for ( index_t i = 0; i!=nint; ++i)
     {
         const T startVal = breaks[i ];
         const T endVal   = breaks[i+1];
@@ -67,7 +67,7 @@ template<class T> void
 gsQuadRule<T>::computeTensorProductRule(const std::vector<gsVector<T> > & nodes,
                                         const std::vector<gsVector<T> > & weights)
 {
-    const int d  = nodes.size();
+    const int d  = static_cast<index_t>(nodes.size());
     GISMO_ASSERT( static_cast<size_t>(d) == weights.size(),
                   "Nodes and weights do not agree." );
 

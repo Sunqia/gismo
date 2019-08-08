@@ -163,7 +163,7 @@ public:
     std::ostream & print(std::ostream & os) const;
 
     /// \brief Returns the length of this list of options
-    int size() const
+    size_t size() const
     {return m_strings.size()+m_ints.size()+m_reals.size()+m_switches.size();}
 
     /// getAllEntries() returns a vector of those. Contains the name of its type

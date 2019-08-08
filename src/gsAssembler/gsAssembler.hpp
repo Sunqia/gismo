@@ -149,13 +149,13 @@ void gsAssembler<T>::penalizeDirichletDofs(int unk)
     {
         const gsBasis<T> & basis = mbasis[it->patch()];
 
-        gsMatrix<unsigned> bnd = basis.boundary(it->side() );
+        gsMatrix<index_t> bnd = basis.boundary(it->side() );
         for (index_t k=0; k!= bnd.size(); ++k)
         {
             // free dof position
-            const index_t ii = mapper.index ( bnd(k) , it->patch() );
+            const index_t ii = mapper.index (bnd(k) , it->patch() );
             // boundary dof position
-            const index_t bb = bmap  .bindex( bnd(k) , it->patch() );
+            const index_t bb = bmap  .bindex(bnd(k) , it->patch() );
 
             m_system.matrix()(ii,ii) = PP;
             m_system.rhs().row(ii)   = PP * m_ddof[unk].row(bb);
@@ -167,15 +167,15 @@ void gsAssembler<T>::penalizeDirichletDofs(int unk)
           it = m_pde_ptr->bc().cornerBegin();
           it != m_pde_ptr->bc().cornerEnd(); ++it )
     {
-        const int i  = mbasis[it->patch].functionAtCorner(it->corner);
-        const int ii = mapper.bindex( i , it->patch );
+        const index_t i  = mbasis[it->patch].functionAtCorner(it->corner);
+        const index_t ii = mapper.bindex( i , it->patch );
         m_system.matrix()(ii,ii)       = PP;
         m_system.rhs().row(ii).setConstant(PP * it->value);
     }
 }
 
 template<class T>
-void gsAssembler<T>::setFixedDofs(const gsMatrix<T> & coefMatrix, int unk, int patch)
+void gsAssembler<T>::setFixedDofs(const gsMatrix<T> & coefMatrix, int unk, index_t patch)
 {
     GISMO_ASSERT( m_options.getInt("DirichletValues") == dirichlet::user, "Incorrect options");
 
@@ -196,7 +196,7 @@ void gsAssembler<T>::setFixedDofs(const gsMatrix<T> & coefMatrix, int unk, int p
           it =  m_pde_ptr->bc().dirichletBegin();
           it != m_pde_ptr->bc().dirichletEnd()  ; ++it )
     {
-        const int k = it->patch();
+        const index_t k = it->patch();
         if ( k == patch )
         {
             // Get indices in the patch on this boundary
@@ -209,7 +209,7 @@ void gsAssembler<T>::setFixedDofs(const gsMatrix<T> & coefMatrix, int unk, int p
             {
                 // Note: boundary.at(i) is the patch-local index of a
                 // control point on the patch
-                const int ii  = mapper.bindex( boundary.at(i) , k );
+                const index_t ii  = mapper.bindex( boundary.at(i) , k );
 
                 m_ddof[unk].row(ii) = coefMatrix.row(boundary.at(i));
             }
@@ -564,10 +564,10 @@ void gsAssembler<T>::constructSolution(const gsMatrix<T>& solVector,
     for (size_t p = 0; p < m_pde_ptr->domain().nPatches(); ++p)
     {
         // Reconstruct solution coefficients on patch p
-        const int sz  = m_bases[m_system.colBasis(unk)][p].size();
+        const size_t sz  = m_bases[m_system.colBasis(unk)][p].size();
         coeffs.resize(sz, dim);
 
-        for (index_t i = 0; i < sz; ++i)
+        for (size_t i = 0; i < sz; ++i)
         {
             if ( mapper.is_free(i, p) ) // DoF value is in the solVector
             {

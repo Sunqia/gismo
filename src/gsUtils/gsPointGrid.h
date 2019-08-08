@@ -96,7 +96,7 @@ template<class T, class CwiseContainer> inline
 void gsPointGrid(CwiseContainer const & cwise, gsMatrix<T>& res)
 {
     gsGridIterator<T,CWISE> pt(cwise);
-    res.resize(cwise.size(), pt.numPoints() );
+    res.resize(static_cast<index_t>(cwise.size()), pt.numPoints() );
     for(index_t c = 0; pt; ++pt, ++c)
         res.col(c) = *pt;
 }
