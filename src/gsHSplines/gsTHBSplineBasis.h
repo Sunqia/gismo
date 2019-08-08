@@ -88,7 +88,7 @@ public:
     { representBasis(); }
 
     gsTHBSplineBasis(gsTensorBSplineBasis<d,T> const&  tbasis, 
-                     const std::vector<unsigned> & boxes) 
+                     const std::vector<index_t> & boxes)
     : gsHTensorBasis<d,T>(tbasis, boxes)
     { representBasis(); }
 

@@ -169,14 +169,14 @@ public:
 
     /// Searches and fetches the Gismo object with a given id
     template<class Object>
-    inline memory::unique_ptr<Object> getId( const int & id)  const
+    inline memory::unique_ptr<Object> getId( const index_t & id)  const
     {
         return memory::make_unique( internal::gsXml<Object>::getId( getXmlRoot(), id ) );
     }
 
     /// Searches and fetches the Gismo object with a given id
     template<class Object>
-    inline void getId( const int & id, Object& result)  const
+    inline void getId( const index_t & id, Object& result)  const
     {
         memory::unique_ptr<Object> obj = getId<Object>(id);
         result = give(*obj);

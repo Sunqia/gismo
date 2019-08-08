@@ -502,7 +502,7 @@ public:  /* Dirichlet degrees of freedom computation */
     /// \param[in] coefMatrix the coefficients of the function
     /// \param[in] unk the consideren unknown
     /// \param[in] patch the patch index
-    void setFixedDofs(const gsMatrix<T> & coefMatrix, int unk = 0, size_t patch = 0);
+    void setFixedDofs(const gsMatrix<T> & coefMatrix, int unk = 0, index_t patch = 0);
 
     /// @brief the user can manually set the dirichlet Dofs for a given patch and
     /// unknown.

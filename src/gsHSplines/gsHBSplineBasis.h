@@ -64,7 +64,7 @@ public:
     }
     
     gsHBSplineBasis( gsTensorBSplineBasis<d,T> const&  tbasis,
-                     std::vector<unsigned> & boxes)
+                     std::vector<index_t> & boxes)
         : gsHTensorBasis<d,T>(tbasis, boxes) 
     {
         // initialize(); // is done in the base constructor

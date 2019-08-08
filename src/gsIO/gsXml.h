@@ -47,7 +47,7 @@ namespace rapidxml
     { return get(firstByTag(tag(), node)); }    \
     static obj * getAny (gsXmlNode * node)      \
     { return get(anyByTag(tag(), node)); }      \
-    static  obj * getId (gsXmlNode * node, int id) \
+    static  obj * getId (gsXmlNode * node, index_t id) \
     { return getById< obj >(node, id); }
 
 #define GSXML_GET_POINTER(obj)          \
@@ -210,15 +210,15 @@ public:
     //static void     getFirst_into (gsXmlNode * node);
     static Object * getAny   (gsXmlNode * node);
     //static void     getAny_into   (gsXmlNode * node);
-    static Object * getId    (gsXmlNode * node, int id);
-    //static void     getId_into   (gsXmlNode * node, int id, Object & result);
+    static Object * getId    (gsXmlNode * node, index_t id);
+    //static void     getId_into   (gsXmlNode * node, index_t id, Object & result);
 };
 
 /// Helper to read an object by a given \em id value:
 /// \param node parent node, we check his children to get the given \em id
 /// \param id
 template<class Object>
-Object * getById(gsXmlNode * node, const int & id)
+Object * getById(gsXmlNode * node, const index_t & id)
 {
     std::string tag = internal::gsXml<Object>::tag();
     for (gsXmlNode * child = node->first_node(tag.c_str()); //note: gsXmlNode object in use
@@ -236,7 +236,7 @@ Object * getById(gsXmlNode * node, const int & id)
 /// Helper to fetch a node with a certain \em id value.
 /// \param root parent node, we check his children for the given \em id
 /// \param id the ID number which is seeked for
-inline gsXmlNode * searchId(const int id, gsXmlNode * root)
+inline gsXmlNode * searchId(const index_t id, gsXmlNode * root)
 {
     for (gsXmlNode * child = root->first_node();
          child; child = child->next_sibling())

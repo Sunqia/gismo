@@ -18,7 +18,7 @@
 using namespace gismo;
 
 void refineMode(int rf, int lvl, unsigned meshSize,
-                unsigned extent, std::vector<unsigned> & boxes);
+                unsigned extent, std::vector<index_t> & boxes);
 
 int main(int argc, char *argv[])
 {
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     gsInfo<< "Coarsest level: "<< tp <<"\n";
 
     // Get refinement boxes based on pattern requested
-    std::vector<unsigned> boxes;
+    std::vector<index_t> boxes;
     refineMode(refmode, refLevels, numknots+1, degree, boxes);
     //gsInfo<< "boxes: "<< boxes.size()/5 <<"\n";
 
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 
 // Provides boxes for refinement
 void refineMode(int rf, int lvl, unsigned meshSize,
-                unsigned extent, std::vector<unsigned> & boxes)
+                unsigned extent, std::vector<index_t> & boxes)
 {
     boxes.clear();
     const unsigned nb  = meshSize*(1<<lvl);

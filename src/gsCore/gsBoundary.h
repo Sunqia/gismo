@@ -379,16 +379,16 @@ public:
 struct patchCorner : public boxCorner
 {
 public:
-    size_t patch;
+    index_t patch;
 public:
     patchCorner() : boxCorner(0) { }
-    patchCorner(size_t p,boundary::corner c)
+    patchCorner(index_t p,boundary::corner c)
         : boxCorner(c), patch (p) { }
 
-    patchCorner(size_t p, int c)
+    patchCorner(index_t p, int c)
         : boxCorner(c), patch (p) { }
 
-    patchCorner(size_t p, boxCorner c)
+    patchCorner(index_t p, boxCorner c)
         : boxCorner(c), patch (p) { }
 
     /**

@@ -122,7 +122,7 @@ public:
     }
 
     gsHTensorBasis( gsTensorBSplineBasis<d,T> const&  tbasis,
-                    const std::vector<unsigned> & boxes)
+                    const std::vector<index_t> & boxes)
     {
         initialize_class(tbasis);
         point i1;
